@@ -1,0 +1,140 @@
+Turbo Assembler	 Version 3.1	    03/04/20 05:45:17	    Page 1
+lab3.asm
+
+
+
+      1	0000			     MYCODE SEGMENT 'CODE'
+      2					 ASSUME	CS:MYCODE,DS:MYCODE
+      3	0000  6A		     buff db 'j'
+      4	0001  73		     let1 db 's'
+      5	0002  6A		     let2 db 'j'
+      6	0003  6A		     let3 db 'j'
+      7
+      8	0004  0A 0D 24		     ent db 10,	13, '$'
+      9	0007			     start:
+     10				     ;Загрузка сегментного региства данных
+     11	0007  0E			 PUSH CS
+     12	0008  1F			 POP DS
+     13
+     14				     ;Исполнение программы
+     15
+     16	0009  E8 0060			 call GetChar
+     17	000C  A0 0000r			 mov al, buff
+     18	000F  A2 0001r			 mov let1, al
+     19	0012  E8 004F			 call NextStr
+     20					 ;call GetChar
+     21					 ;mov al, buff
+     22					 ;mov let2, al
+     23					 ;call GetChar
+     24					 ;mov al, buff
+     25					 ;mov let3, al
+     26
+     27	0015  8A 16 0001r		 mov dl, let1
+     28	0019  E8 0069			 call AddOne
+     29	001C  A0 0000r			 mov al, buff
+     30	001F  A2 0001r			 mov let1, al
+     31	0022  8A 16 0001r		 mov dl, let1
+     32	0026  E8 004B			 call PrintChar
+     33	0029  E8 0038			 call NextStr
+     34
+     35	002C  8A 16 0001r		 mov dl, let1
+     36	0030  E8 0052			 call AddOne
+     37	0033  A0 0000r			 mov al, buff
+     38	0036  A2 0001r			 mov let1, al
+     39	0039  8A 16 0001r		 mov dl, let1
+     40	003D  E8 0034			 call PrintChar
+     41	0040  E8 0021			 call NextStr
+     42
+     43	0043  8A 16 0001r		 mov dl, let1
+     44	0047  E8 003B			 call AddOne
+     45	004A  A0 0000r			 mov al, buff
+     46	004D  A2 0001r			 mov let1, al
+     47	0050  8A 16 0001r		 mov dl, let1
+     48	0054  E8 001D			 call PrintChar
+     49	0057  E8 000A			 call NextStr
+     50
+     51				     ; Ожидание	завершения программы
+     52	005A  B4 08			 MOV ah, 08
+     53	005C  CD 21			 INT 021H
+     54				     ; Выход из	программы
+     55	005E  B0 00			 MOV al, 0
+     56	0060  B4 4C			 MOV ah, 4CH
+     57	0062  CD 21			 INT 21H
+Turbo Assembler	 Version 3.1	    03/04/20 05:45:17	    Page 2
+lab3.asm
+
+
+
+     58
+     59				     ;Функции
+     60	0064			     proc NextStr
+     61	0064  BA 0004r			 lea dx, ent
+     62	0067  B4 09			 mov ah, 9
+     63	0069  CD 21			 int 21h
+     64	006B  C3			 ret
+     65	006C			     endp NextStr
+     66
+     67	006C			     GetChar proc
+     68	006C  B4 01			 mov ah, 01
+     69	006E  CD 21			 int 21h
+     70	0070  A2 0000r			 mov buff, al
+     71	0073  C3			 ret
+     72	0074			     GetChar endp
+     73
+     74	0074			     PrintChar proc
+     75	0074  B4 02			 mov ah, 02
+     76	0076  CD 21			 int 21h
+     77	0078  C3			 ret
+     78	0079			     PrintChar endp
+     79
+     80	0079			     proc Clear
+     81	0079  B9 0780			 mov cx,80*24
+     82	007C  B2 20			 mov dl,' '
+     83	007E  B4 02			 mov ah,2
+     84	0080				 m1:
+     85	0080  CD 21			 int 21h
+     86	0082  E2 FC			 loop m1
+     87	0084  C3			 ret
+     88	0085			     endp Clear
+     89
+     90	0085			     proc AddOne
+     91	0085  8A E2			 mov ah, dl
+     92	0087  80 C4 01			 add ah, 1
+     93	008A  88 26 0000r		 mov buff, ah
+     94	008E  C3			 ret
+     95	008F			     endp AddOne
+     96	008F			     MYCODE ENDS
+     97				     END START
+Turbo Assembler	 Version 3.1	    03/04/20 05:45:17	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name		Type   Value			   Cref	(defined at #)
+
+??DATE			Text   "03/04/20"
+??FILENAME		Text   "lab3	"
+??TIME			Text   "05:45:17"
+??VERSION		Number 030A
+@CPU			Text   0101H
+@CURSEG			Text   MYCODE			   #1
+@FILENAME		Text   LAB3
+@WORDSIZE		Text   2			   #1
+ADDONE			Near   MYCODE:0085		   28  36  44  #90
+BUFF			Byte   MYCODE:0000		   #3  17  29  37  45  70  93
+CLEAR			Near   MYCODE:0079		   #80
+ENT			Byte   MYCODE:0004		   #8  61
+GETCHAR			Near   MYCODE:006C		   16  #67
+LET1			Byte   MYCODE:0001		   #4  18  27  30  31  35  38  39  43  46  47
+LET2			Byte   MYCODE:0002		   #5
+LET3			Byte   MYCODE:0003		   #6
+M1			Near   MYCODE:0080		   #84	86
+NEXTSTR			Near   MYCODE:0064		   19  33  41  49  #60
+PRINTCHAR		Near   MYCODE:0074		   32  40  48  #74
+START			Near   MYCODE:0007		   #9  97
+
+Groups & Segments	Bit Size Align	Combine	Class	   Cref	(defined at #)
+
+MYCODE			16  008F Para	none	CODE	   #1  2  2
+
