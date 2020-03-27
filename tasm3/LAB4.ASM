@@ -6,6 +6,7 @@ MYCODE SEGMENT 'CODE'
     MiddleBorder db 'Ё'
     BottomBorder db'юдддддды$'
     EqualSign db ' = $'
+    ent db 10, 13, '$'
     ErrorMsg db 'Invalid number!$'
 start:
     PUSH CS

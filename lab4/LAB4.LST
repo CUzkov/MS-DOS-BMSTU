@@ -1,4 +1,4 @@
-Turbo Assembler	 Version 3.1	    03/16/20 14:48:58	    Page 1
+Turbo Assembler	 Version 3.1	    03/27/20 13:09:57	    Page 1
 lab4.asm
 
 
@@ -15,167 +15,167 @@ lab4.asm
      10	001A  C0 C4 C4 C4 C4 C4	C4+	 BottomBorder db'¿ƒƒƒƒƒƒŸ$'
      11	      D9 24
      12	0023  20 3D 20 24		 EqualSign db '	= $'
-     13	0027  49 6E 76 61 6C 69	64+	 ErrorMsg db 'Invalid number!$'
-     14	      20 6E 75 6D 62 65	72+
-     15	      21 24
-     16	0037			     start:
-     17	0037  0E			 PUSH CS
-     18	0038  1F			 POP  DS
-     19
-     20	0039  E8 00BB			 call Cls
-     21	003C  E8 00BE			 call CorrInput
-     22	003F  E8 0058			 call PrintTable
-     23	0042  E8 00AA			 call NextStr
-     24
-     25	0045			     @@Loop:
-     26	0045  E8 00B5			 call CorrInput
-     27
-     28	0048  3C 1B			 cmp	 al, kbEsc
-     29	004A  74 46			 je	 @@Break
-     30
-     31	004C  50			 push ax
-     32	004D  B4 09			 mov ah, 09h
-     33	004F  BA 0010r			 mov dx, offset	[UpBorder]
-     34	0052  CD 21			 int 21h
-     35	0054  E8 0098			 call NextStr
-     36	0057  A0 0019r			 mov al, [MiddleBorder]
-     37	005A  CD 29			 int 29h
-     38	005C  58			 pop ax
-     39	005D  CD 29			 int 29h
-     40	005F  50			 push ax
-     41
-     42	0060  B4 09			 mov ah, 09h
-     43	0062  BA 0023r			 mov dx, offset	[EqualSign]
-     44	0065  CD 21			 int 21h
-     45
-     46	0067  58			 pop ax
-     47	0068  50			 push ax
-     48	0069  D0 E8 D0 E8 D0 E8	D0+	 shr al, 4
-     49	      E8
-     50	0071  D7			 xlat
-     51	0072  CD 29			 int 29h
-     52	0074  58			 pop ax
-     53	0075  50			 push ax
-     54	0076  24 0F			 and al, 0Fh
-     55	0078  D7			 xlat
-     56	0079  CD 29			 int 29h
-     57
-Turbo Assembler	 Version 3.1	    03/16/20 14:48:58	    Page 2
+     13	0027  0A 0D 24			 ent db	10, 13,	'$'
+     14	002A  49 6E 76 61 6C 69	64+	 ErrorMsg db 'Invalid number!$'
+     15	      20 6E 75 6D 62 65	72+
+     16	      21 24
+     17	003A			     start:
+     18	003A  0E			 PUSH CS
+     19	003B  1F			 POP  DS
+     20
+     21	003C  E8 00BB			 call Cls
+     22	003F  E8 00BE			 call CorrInput
+     23	0042  E8 0058			 call PrintTable
+     24	0045  E8 00AA			 call NextStr
+     25
+     26	0048			     @@Loop:
+     27	0048  E8 00B5			 call CorrInput
+     28
+     29	004B  3C 1B			 cmp	 al, kbEsc
+     30	004D  74 46			 je	 @@Break
+     31
+     32	004F  50			 push ax
+     33	0050  B4 09			 mov ah, 09h
+     34	0052  BA 0010r			 mov dx, offset	[UpBorder]
+     35	0055  CD 21			 int 21h
+     36	0057  E8 0098			 call NextStr
+     37	005A  A0 0019r			 mov al, [MiddleBorder]
+     38	005D  CD 29			 int 29h
+     39	005F  58			 pop ax
+     40	0060  CD 29			 int 29h
+     41	0062  50			 push ax
+     42
+     43	0063  B4 09			 mov ah, 09h
+     44	0065  BA 0023r			 mov dx, offset	[EqualSign]
+     45	0068  CD 21			 int 21h
+     46
+     47	006A  58			 pop ax
+     48	006B  50			 push ax
+     49	006C  D0 E8 D0 E8 D0 E8	D0+	 shr al, 4
+     50	      E8
+     51	0074  D7			 xlat
+     52	0075  CD 29			 int 29h
+     53	0077  58			 pop ax
+     54	0078  50			 push ax
+     55	0079  24 0F			 and al, 0Fh
+     56	007B  D7			 xlat
+     57	007C  CD 29			 int 29h
+Turbo Assembler	 Version 3.1	    03/27/20 13:09:57	    Page 2
 lab4.asm
 
 
 
-     58	007B  A0 0019r			 mov al, [MiddleBorder]
-     59	007E  CD 29			 int 29h
-     60	0080  E8 006C			 call NextStr
-     61	0083  58			 pop ax
-     62	0084  B4 09			 mov ah, 09h
-     63	0086  BA 001Ar			 mov dx, offset	[BottomBorder]
-     64	0089  CD 21			 int 21h
-     65	008B  E8 0061			 call NextStr
-     66	008E  B0 01			 mov al, 1
-     67
-     68	0090  EB B3			 jmp	 @@Loop
-     69	0092			     @@Break:
-     70
-     71	0092			     @@Exit:
-     72	0092  E8 0062			 call Cls
-     73	0095  B8 4C00			 mov  ax, 4C00h
-     74	0098  CD 21			 int  21h
-     75
-     76	009A			     proc PrintTable
-     77	009A  04 FF			 add al, -1
-     78	009C  50			 push ax
-     79
-     80	009D  BB 0000r			 mov bx, offset	[HexTabl]
-     81	00A0  B4 09			 mov ah, 09h
-     82	00A2  BA 0010r			 mov dx, offset	[UpBorder]
-     83	00A5  CD 21			 int 21h
-     84	00A7  E8 0045			 call NextStr
-     85				     ;Å´Æ™
-     86	00AA  B9 0014			 mov cx, 14h
-     87	00AD			     L:
-     88	00AD  A0 0019r			 mov al, [MiddleBorder]
-     89	00B0  CD 29			 int 29h
-     90	00B2  58			 pop ax
-     91	00B3  04 01			 add al, 1
-     92	00B5  CD 29			 int 29h
-     93	00B7  50			 push ax
-     94
-     95	00B8  B4 09			 mov ah, 09h
-     96	00BA  BA 0023r			 mov dx, offset	[EqualSign]
-     97	00BD  CD 21			 int 21h
-     98
-     99	00BF  58			 pop ax
-    100
-    101	00C0  50			 push ax
-    102	00C1  D0 E8 D0 E8 D0 E8	D0+	 shr al, 4
-    103	      E8
-    104	00C9  D7			 xlat
-    105	00CA  CD 29			 int 29h
-    106	00CC  58			 pop ax
-    107	00CD  50			 push ax
-    108	00CE  24 0F			 and al, 0Fh
-    109	00D0  D7			 xlat
-    110	00D1  CD 29			 int 29h
-    111
-    112	00D3  A0 0019r			 mov al, [MiddleBorder]
-    113	00D6  CD 29			 int 29h
-    114	00D8  E8 0014			 call NextStr
-Turbo Assembler	 Version 3.1	    03/16/20 14:48:58	    Page 3
+     58
+     59	007E  A0 0019r			 mov al, [MiddleBorder]
+     60	0081  CD 29			 int 29h
+     61	0083  E8 006C			 call NextStr
+     62	0086  58			 pop ax
+     63	0087  B4 09			 mov ah, 09h
+     64	0089  BA 001Ar			 mov dx, offset	[BottomBorder]
+     65	008C  CD 21			 int 21h
+     66	008E  E8 0061			 call NextStr
+     67	0091  B0 01			 mov al, 1
+     68
+     69	0093  EB B3			 jmp	 @@Loop
+     70	0095			     @@Break:
+     71
+     72	0095			     @@Exit:
+     73	0095  E8 0062			 call Cls
+     74	0098  B8 4C00			 mov  ax, 4C00h
+     75	009B  CD 21			 int  21h
+     76
+     77	009D			     proc PrintTable
+     78	009D  04 FF			 add al, -1
+     79	009F  50			 push ax
+     80
+     81	00A0  BB 0000r			 mov bx, offset	[HexTabl]
+     82	00A3  B4 09			 mov ah, 09h
+     83	00A5  BA 0010r			 mov dx, offset	[UpBorder]
+     84	00A8  CD 21			 int 21h
+     85	00AA  E8 0045			 call NextStr
+     86				     ;Å´Æ™
+     87	00AD  B9 0014			 mov cx, 14h
+     88	00B0			     L:
+     89	00B0  A0 0019r			 mov al, [MiddleBorder]
+     90	00B3  CD 29			 int 29h
+     91	00B5  58			 pop ax
+     92	00B6  04 01			 add al, 1
+     93	00B8  CD 29			 int 29h
+     94	00BA  50			 push ax
+     95
+     96	00BB  B4 09			 mov ah, 09h
+     97	00BD  BA 0023r			 mov dx, offset	[EqualSign]
+     98	00C0  CD 21			 int 21h
+     99
+    100	00C2  58			 pop ax
+    101
+    102	00C3  50			 push ax
+    103	00C4  D0 E8 D0 E8 D0 E8	D0+	 shr al, 4
+    104	      E8
+    105	00CC  D7			 xlat
+    106	00CD  CD 29			 int 29h
+    107	00CF  58			 pop ax
+    108	00D0  50			 push ax
+    109	00D1  24 0F			 and al, 0Fh
+    110	00D3  D7			 xlat
+    111	00D4  CD 29			 int 29h
+    112
+    113	00D6  A0 0019r			 mov al, [MiddleBorder]
+    114	00D9  CD 29			 int 29h
+Turbo Assembler	 Version 3.1	    03/27/20 13:09:57	    Page 3
 lab4.asm
 
 
 
-    115	00DB  58			 pop ax
-    116	00DC  50			 push ax
-    117	00DD  3C FF			 cmp al, 255
-    118	00DF  74 02			 je @@Stop
-    119	00E1  E2 CA			 loop L
-    120				     ;Å´Æ™
-    121	00E3			     @@Stop:
-    122	00E3  58			 pop ax
-    123	00E4  B4 09			 mov ah, 09h
-    124	00E6  BA 001Ar			 mov dx, offset	[BottomBorder]
-    125	00E9  CD 21			 int 21h
-    126	00EB  E8 0001			 call NextStr
-    127	00EE  C3			 ret
-    128	00EF			     endp PrintTable
-    129
-    130	00EF			     proc NextStr
-    131	00EF  BA 0000			 lea dx, ent
-**Error** lab4.asm(123)	Undefined symbol: ENT
-    132	00F2  B4 09			 mov ah, 9
-    133	00F4  CD 21			 int 21h
-    134	00F6  C3			 ret
-    135	00F7			     endp NextStr
-    136
-    137	00F7			     proc Cls
-    138	00F7  B4 00			 mov ah, 00h
-    139	00F9  B0 02			 mov al, 2
-    140	00FB  CD 10			 int 10h
-    141	00FD			     endp Cls
-    142
-    143	00FD			     proc CorrInput
-    144	00FD			     @@Loop2:
-    145	00FD  B4 08			 mov ah, 08h
-    146	00FF  CD 21			 int 21h
-    147	0101  3C 14			 cmp al, 14h
-    148	0103  72 02			 jb @@Error
-    149	0105  77 0C			 ja @@Break2
-    150	0107				 @@Error:
-    151	0107  B4 09			 mov ah, 09h
-    152	0109  BA 0027r			 mov dx, offset	[ErrorMsg]
-    153	010C  CD 21			 int 21h
-    154	010E  E8 FFDE			 call NextStr
-    155	0111  EB EA			 jmp @@Loop2
-    156	0113			     @@Break2:
-    157	0113  E8 FFD9			 call NextStr
-    158	0116  C3			 ret
-    159	0117			     endp CorrInput
-    160	0117			     MYCODE ENDS
-    161				     END START
-Turbo Assembler	 Version 3.1	    03/16/20 14:48:58	    Page 4
+    115	00DB  E8 0014			 call NextStr
+    116	00DE  58			 pop ax
+    117	00DF  50			 push ax
+    118	00E0  3C FF			 cmp al, 255
+    119	00E2  74 02			 je @@Stop
+    120	00E4  E2 CA			 loop L
+    121				     ;Å´Æ™
+    122	00E6			     @@Stop:
+    123	00E6  58			 pop ax
+    124	00E7  B4 09			 mov ah, 09h
+    125	00E9  BA 001Ar			 mov dx, offset	[BottomBorder]
+    126	00EC  CD 21			 int 21h
+    127	00EE  E8 0001			 call NextStr
+    128	00F1  C3			 ret
+    129	00F2			     endp PrintTable
+    130
+    131	00F2			     proc NextStr
+    132	00F2  BA 0027r			 lea dx, ent
+    133	00F5  B4 09			 mov ah, 9
+    134	00F7  CD 21			 int 21h
+    135	00F9  C3			 ret
+    136	00FA			     endp NextStr
+    137
+    138	00FA			     proc Cls
+    139	00FA  B4 00			 mov ah, 00h
+    140	00FC  B0 02			 mov al, 2
+    141	00FE  CD 10			 int 10h
+    142	0100			     endp Cls
+    143
+    144	0100			     proc CorrInput
+    145	0100			     @@Loop2:
+    146	0100  B4 08			 mov ah, 08h
+    147	0102  CD 21			 int 21h
+    148	0104  3C 14			 cmp al, 14h
+    149	0106  72 02			 jb @@Error
+    150	0108  77 0C			 ja @@Break2
+    151	010A				 @@Error:
+    152	010A  B4 09			 mov ah, 09h
+    153	010C  BA 002Ar			 mov dx, offset	[ErrorMsg]
+    154	010F  CD 21			 int 21h
+    155	0111  E8 FFDE			 call NextStr
+    156	0114  EB EA			 jmp @@Loop2
+    157	0116			     @@Break2:
+    158	0116  E8 FFD9			 call NextStr
+    159	0119  C3			 ret
+    160	011A			     endp CorrInput
+    161	011A			     MYCODE ENDS
+    162				     END START
+Turbo Assembler	 Version 3.1	    03/27/20 13:09:57	    Page 4
 Symbol Table
 
 
@@ -183,42 +183,37 @@ Symbol Table
 
 Symbol Name		Type   Value			   Cref	(defined at #)
 
-??DATE			Text   "03/16/20"
+??DATE			Text   "03/27/20"
 ??FILENAME		Text   "lab4	"
-??TIME			Text   "14:48:58"
+??TIME			Text   "13:09:57"
 ??VERSION		Number 030A
-@@BREAK			Near   MYCODE:0092		   29  #69
-@@BREAK2		Near   MYCODE:0113		   149	#156
-@@ERROR			Near   MYCODE:0107		   148	#150
-@@EXIT			Near   MYCODE:0092		   #71
-@@LOOP			Near   MYCODE:0045		   #25	68
-@@LOOP2			Near   MYCODE:00FD		   #144	 155
-@@STOP			Near   MYCODE:00E3		   118	#121
+@@BREAK			Near   MYCODE:0095		   30  #70
+@@BREAK2		Near   MYCODE:0116		   150	#157
+@@ERROR			Near   MYCODE:010A		   149	#151
+@@EXIT			Near   MYCODE:0095		   #72
+@@LOOP			Near   MYCODE:0048		   #26	69
+@@LOOP2			Near   MYCODE:0100		   #145	 156
+@@STOP			Near   MYCODE:00E6		   119	#122
 @CPU			Text   0101H
 @CURSEG			Text   MYCODE			   #1
 @FILENAME		Text   LAB4
 @WORDSIZE		Text   2			   #1
-BOTTOMBORDER		Byte   MYCODE:001A		   #10	63  124
-CLS			Near   MYCODE:00F7		   20  72  #137
-CORRINPUT		Near   MYCODE:00FD		   21  26  #143
-EQUALSIGN		Byte   MYCODE:0023		   #12	43  96
-ERRORMSG		Byte   MYCODE:0027		   #13	152
-HEXTABL			Byte   MYCODE:0000		   #3  80
-KBESC			Number 001B			   #6  28
-L			Near   MYCODE:00AD		   #87	119
-MIDDLEBORDER		Byte   MYCODE:0019		   #9  36  58  88  112
-NEXTSTR			Near   MYCODE:00EF		   23  35  60  65  84  114  126	 #130  154  157
-PRINTTABLE		Near   MYCODE:009A		   22  #76
-START			Near   MYCODE:0037		   #16	161
-UPBORDER		Byte   MYCODE:0010		   #7  33  82
+BOTTOMBORDER		Byte   MYCODE:001A		   #10	64  125
+CLS			Near   MYCODE:00FA		   21  73  #138
+CORRINPUT		Near   MYCODE:0100		   22  27  #144
+ENT			Byte   MYCODE:0027		   #13	132
+EQUALSIGN		Byte   MYCODE:0023		   #12	44  97
+ERRORMSG		Byte   MYCODE:002A		   #14	153
+HEXTABL			Byte   MYCODE:0000		   #3  81
+KBESC			Number 001B			   #6  29
+L			Near   MYCODE:00B0		   #88	120
+MIDDLEBORDER		Byte   MYCODE:0019		   #9  37  59  89  113
+NEXTSTR			Near   MYCODE:00F2		   24  36  61  66  85  115  127	 #131  155  158
+PRINTTABLE		Near   MYCODE:009D		   23  #77
+START			Near   MYCODE:003A		   #17	162
+UPBORDER		Byte   MYCODE:0010		   #7  34  83
 
 Groups & Segments	Bit Size Align	Combine	Class	   Cref	(defined at #)
 
-MYCODE			16  0117 Para	none	CODE	   #1  2  2
-Turbo Assembler	 Version 3.1	    03/16/20 14:48:58	    Page 5
-Error Summary
-
-
-
-**Error** lab4.asm(123)	Undefined symbol: ENT
+MYCODE			16  011A Para	none	CODE	   #1  2  2
 
