@@ -1,7 +1,9 @@
-text segment
-assume CS:text, DS:data
+code segment
+    assume CS:code, DS:code
+    org 100h 
+
 start: 
-    mov ax, data
+    mov ax, cs
     mov ds, ax
 @@Loop2:
     push ax
@@ -74,14 +76,10 @@ proc NextStr
     ret
 endp NextStr
 
-text ends
-data segment
-    HexTabl db '0123456789ABCDEF'
-    EqualSing db ' = $'
-    ent db 10, 13, '$'
-    buff dw 0
-data ends
-stk segment stack
-    db 256 dup (0)
-stk ends
+HexTabl db '0123456789ABCDEF'
+EqualSing db ' = $'
+ent db 10, 13, '$'
+buff dw 0
+
+code ends
 end start  
