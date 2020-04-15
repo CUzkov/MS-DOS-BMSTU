@@ -1,14 +1,5 @@
-
-
-
 code segment
-
-
-
     assume CS:code, DS:code
-
-
-
     org 100h 
 
 start: 

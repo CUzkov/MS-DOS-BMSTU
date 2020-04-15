@@ -1,111 +1,102 @@
-Turbo Assembler	 Version 3.1	    03/28/20 19:02:05	    Page 1
+Turbo Assembler	 Version 3.1	    03/28/20 19:09:15	    Page 1
 lab5.asm
 
 
 
-      1
-      2
-      3
-      4	0000			     code segment
-      5
-      6
-      7
-      8					 assume	CS:code, DS:code
-      9
-     10
-     11
-     12					 org 100h
-     13
-     14	0100			     start:
-     15	0100  8C C8			 mov ax, cs
-     16	0102  8E D8			 mov ds, ax
-     17	0104			     @@Loop2:
-     18	0104  50			 push ax
-     19	0105  8B EC			 mov bp, sp
-     20	0107  58			 pop ax
-     21				     ;ввод строки
-     22	0108  B4 01			 mov ah, 01h
-     23	010A  CD 21			 int 21h
-     24	010C  3C 2A			 cmp al, '*'
-     25	010E  B4 00			 mov ah, 0
-     26	0110  74 46			 je @@Exite1
-     27	0112  50			 push ax
-     28	0113  B9 0013			 mov cx, 19
-     29	0116				 @@Loop1:
-     30	0116  B4 01			 mov ah, 01h
-     31	0118  CD 21			 int 21h
-     32	011A  50			 push ax
-     33	011B  3C 24			 cmp al, '$'
-     34	011D  74 02			 je @@Breake1
-     35	011F  E2 F5			 loop @@Loop1
-     36	0121				 @@Breake1:
-     37	0121  B8 0014			 mov ax, 14h
-     38	0124  2B C1			 sub ax, cx
-     39	0126  8B C8			 mov cx, ax
-     40	0128  89 0E 0194r		 mov [buff], cx
-     41				     ;конец ввода
-     42	012C  3D 0000			 cmp ax, 0
-     43	012F  74 27			 je @@Exite2
-     44	0131  B4 09			 mov ah, 09h
-     45	0133  BA 018Dr			 mov dx, offset	[EqualSing]
-     46	0136  CD 21			 int 21h
-     47	0138  BB 017Dr			 mov bx, offset	[HexTabl]
-     48	013B  BE 0000			 mov si, 0
-     49	013E				 @@Loop3:
-     50	013E  E8 001D			     call Hex
-     51	0141  B4 02			     mov ah, 02h
-     52	0143  B2 20			     mov dl, 20h
-     53	0145  CD 21			     int 21h
-     54	0147  83 C5 FE			     add bp, -2
-     55	014A  E2 F2			     loop @@Loop3
-     56	014C  E8 0026			 call NextStr
-     57	014F  8B 0E 0194r		 mov cx, [buff]
-Turbo Assembler	 Version 3.1	    03/28/20 19:02:05	    Page 2
+      1	0000			     code segment
+      2					 assume	CS:code, DS:code
+      3					 org 100h
+      4
+      5	0100			     start:
+      6	0100  8C C8			 mov ax, cs
+      7	0102  8E D8			 mov ds, ax
+      8	0104			     @@Loop2:
+      9	0104  50			 push ax
+     10	0105  8B EC			 mov bp, sp
+     11	0107  58			 pop ax
+     12				     ;ввод строки
+     13	0108  B4 01			 mov ah, 01h
+     14	010A  CD 21			 int 21h
+     15	010C  3C 2A			 cmp al, '*'
+     16	010E  B4 00			 mov ah, 0
+     17	0110  74 46			 je @@Exite1
+     18	0112  50			 push ax
+     19	0113  B9 0013			 mov cx, 19
+     20	0116				 @@Loop1:
+     21	0116  B4 01			 mov ah, 01h
+     22	0118  CD 21			 int 21h
+     23	011A  50			 push ax
+     24	011B  3C 24			 cmp al, '$'
+     25	011D  74 02			 je @@Breake1
+     26	011F  E2 F5			 loop @@Loop1
+     27	0121				 @@Breake1:
+     28	0121  B8 0014			 mov ax, 14h
+     29	0124  2B C1			 sub ax, cx
+     30	0126  8B C8			 mov cx, ax
+     31	0128  89 0E 0194r		 mov [buff], cx
+     32				     ;конец ввода
+     33	012C  3D 0000			 cmp ax, 0
+     34	012F  74 27			 je @@Exite2
+     35	0131  B4 09			 mov ah, 09h
+     36	0133  BA 018Dr			 mov dx, offset	[EqualSing]
+     37	0136  CD 21			 int 21h
+     38	0138  BB 017Dr			 mov bx, offset	[HexTabl]
+     39	013B  BE 0000			 mov si, 0
+     40	013E				 @@Loop3:
+     41	013E  E8 001D			     call Hex
+     42	0141  B4 02			     mov ah, 02h
+     43	0143  B2 20			     mov dl, 20h
+     44	0145  CD 21			     int 21h
+     45	0147  83 C5 FE			     add bp, -2
+     46	014A  E2 F2			     loop @@Loop3
+     47	014C  E8 0026			 call NextStr
+     48	014F  8B 0E 0194r		 mov cx, [buff]
+     49	0153				 @@Loop4:
+     50	0153  58			     pop ax
+     51	0154  E2 FD			     loop @@Loop4
+     52	0156  EB AC			 jmp @@Loop2
+     53	0158				 @@Exite1:
+     54	0158				 @@Exite2:
+     55	0158  B4 4C			 mov ah, 4ch
+     56	015A  B0 00			 mov al, 0
+     57	015C  CD 21			 int 21h
+Turbo Assembler	 Version 3.1	    03/28/20 19:09:15	    Page 2
 lab5.asm
 
 
 
-     58	0153				 @@Loop4:
-     59	0153  58			     pop ax
-     60	0154  E2 FD			     loop @@Loop4
-     61	0156  EB AC			 jmp @@Loop2
-     62	0158				 @@Exite1:
-     63	0158				 @@Exite2:
-     64	0158  B4 4C			 mov ah, 4ch
-     65	015A  B0 00			 mov al, 0
-     66	015C  CD 21			 int 21h
-     67
-     68	015E			     proc Hex
-     69	015E  8B 46 00			 mov ax, [bp]
-     70	0161  D0 E8 D0 E8 D0 E8	D0+	 shr al, 4
-     71	      E8
-     72	0169  D7			 xlat
-     73	016A  CD 29			 int 29h
-     74
-     75	016C  8B 46 00			 mov ax, [bp]
-     76	016F  24 0F			 and al, 0Fh
-     77	0171  D7			 xlat
-     78	0172  CD 29			 int 29h
-     79	0174  C3			 ret
-     80	0175			     endp Hex
-     81
-     82	0175			     proc NextStr
-     83	0175  BA 0191r			 lea dx, ent
-     84	0178  B4 09			 mov ah, 9
-     85	017A  CD 21			 int 21h
-     86	017C  C3			 ret
-     87	017D			     endp NextStr
-     88
-     89	017D  30 31 32 33 34 35	36+  HexTabl db	'0123456789ABCDEF'
-     90	      37 38 39 41 42 43	44+
-     91	      45 46
-     92	018D  20 3D 20 24	     EqualSing db ' = $'
-     93	0191  0A 0D 24		     ent db 10,	13, '$'
-     94	0194  0000		     buff dw 0
-     95
-     96	0196			     code ends
-     97				     end start
-Turbo Assembler	 Version 3.1	    03/28/20 19:02:05	    Page 3
+     58
+     59	015E			     proc Hex
+     60	015E  8B 46 00			 mov ax, [bp]
+     61	0161  D0 E8 D0 E8 D0 E8	D0+	 shr al, 4
+     62	      E8
+     63	0169  D7			 xlat
+     64	016A  CD 29			 int 29h
+     65
+     66	016C  8B 46 00			 mov ax, [bp]
+     67	016F  24 0F			 and al, 0Fh
+     68	0171  D7			 xlat
+     69	0172  CD 29			 int 29h
+     70	0174  C3			 ret
+     71	0175			     endp Hex
+     72
+     73	0175			     proc NextStr
+     74	0175  BA 0191r			 lea dx, ent
+     75	0178  B4 09			 mov ah, 9
+     76	017A  CD 21			 int 21h
+     77	017C  C3			 ret
+     78	017D			     endp NextStr
+     79
+     80	017D  30 31 32 33 34 35	36+  HexTabl db	'0123456789ABCDEF'
+     81	      37 38 39 41 42 43	44+
+     82	      45 46
+     83	018D  20 3D 20 24	     EqualSing db ' = $'
+     84	0191  0A 0D 24		     ent db 10,	13, '$'
+     85	0194  0000		     buff dw 0
+     86
+     87	0196			     code ends
+     88				     end start
+Turbo Assembler	 Version 3.1	    03/28/20 19:09:15	    Page 3
 Symbol Table
 
 
@@ -115,28 +106,28 @@ Symbol Name		Type   Value			   Cref	(defined at #)
 
 ??DATE			Text   "03/28/20"
 ??FILENAME		Text   "lab5	"
-??TIME			Text   "19:02:05"
+??TIME			Text   "19:09:15"
 ??VERSION		Number 030A
-@@BREAKE1		Near   CODE:0121		   34  #36
-@@EXITE1		Near   CODE:0158		   26  #62
-@@EXITE2		Near   CODE:0158		   43  #63
-@@LOOP1			Near   CODE:0116		   #29	35
-@@LOOP2			Near   CODE:0104		   #17	61
-@@LOOP3			Near   CODE:013E		   #49	55
-@@LOOP4			Near   CODE:0153		   #58	60
+@@BREAKE1		Near   CODE:0121		   25  #27
+@@EXITE1		Near   CODE:0158		   17  #53
+@@EXITE2		Near   CODE:0158		   34  #54
+@@LOOP1			Near   CODE:0116		   #20	26
+@@LOOP2			Near   CODE:0104		   #8  52
+@@LOOP3			Near   CODE:013E		   #40	46
+@@LOOP4			Near   CODE:0153		   #49	51
 @CPU			Text   0101H
-@CURSEG			Text   CODE			   #4
+@CURSEG			Text   CODE			   #1
 @FILENAME		Text   LAB5
-@WORDSIZE		Text   2			   #4
-BUFF			Word   CODE:0194		   40  57  #94
-ENT			Byte   CODE:0191		   83  #93
-EQUALSING		Byte   CODE:018D		   45  #92
-HEX			Near   CODE:015E		   50  #68
-HEXTABL			Byte   CODE:017D		   47  #89
-NEXTSTR			Near   CODE:0175		   56  #82
-START			Near   CODE:0100		   #14	97
+@WORDSIZE		Text   2			   #1
+BUFF			Word   CODE:0194		   31  48  #85
+ENT			Byte   CODE:0191		   74  #84
+EQUALSING		Byte   CODE:018D		   36  #83
+HEX			Near   CODE:015E		   41  #59
+HEXTABL			Byte   CODE:017D		   38  #80
+NEXTSTR			Near   CODE:0175		   47  #73
+START			Near   CODE:0100		   #5  88
 
 Groups & Segments	Bit Size Align	Combine	Class	   Cref	(defined at #)
 
-CODE			16  0196 Para	none		   #4  8  8
+CODE			16  0196 Para	none		   #1  2  2
 
