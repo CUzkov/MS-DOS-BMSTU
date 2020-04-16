@@ -1,0 +1,21 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 00028H 00029H CODE               
+ 00030H 0004DH 0001EH DATA               
+
+  Address         Publics by Name
+
+
+  Address         Publics by Value
+
+
+Line numbers for lab7.obj(LAB7.ASM) segment CODE
+
+     6 0000:0000     7 0000:0003     9 0000:0005    10 0000:0007
+    11 0000:000C    14 0000:0012    15 0000:0014    16 0000:0019
+    20 0000:001B    21 0000:001D    22 0000:001F    25 0000:0021
+    26 0000:0024    27 0000:0026    28 0000:0028
+Program entry point at 0000:0000
+Warning: No stack
+

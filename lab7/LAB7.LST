@@ -1,0 +1,79 @@
+Turbo Assembler	 Version 3.1	    04/16/20 23:06:07	    Page 1
+lab7.asm
+
+
+
+      1	0000			     code segment
+      2					 assume	CS:code, DS:data
+      3
+      4	0000			     start:
+      5
+      6	0000  B8 0000s		     mov ax, data
+      7	0003  8E D8		     mov ds, ax
+      8
+      9	0005  33 DB		     xor   bx, bx
+     10	0007  26: 8A 1E	0080	     mov   bl, es:[80h]
+     11	000C  C7 87 0082 0024	     mov   byte	[bx + 81h], '$'
+*Warning* lab7.asm(11) Argument	needs type override
+     12
+     13				     ; print the string
+     14	0012  B4 09		     mov   ah, 9
+     15	0014  26: 8B 16	0081	     mov   dx, es:[81h]
+     16	0019  CD 21		     int   21h
+     17
+     18
+     19	001B			     @last:
+     20	001B  B0 00		     mov al, 0
+     21	001D  B4 4C		     mov ah, 4CH
+     22	001F  CD 21		     int 21H
+     23
+     24	0021			     proc NextStr
+     25	0021  BA 001Br			 lea dx, ent
+     26	0024  B4 09			 mov ah, 9
+     27	0026  CD 21			 int 21h
+     28	0028  C3			 ret
+     29	0029			     endp NextStr
+     30
+     31	0029			     code ends
+     32	0000			     data segment
+     33	0000  46 69 72 73 74 20	70+	 firstStrYes db	'First param is	coorrect = $'
+     34	      61 72 61 6D 20 69	73+
+     35	      20 63 6F 6F 72 72	65+
+     36	      63 74 20 3D 20 24
+     37
+     38	001B  0A 0D 24			 ent db	10, 13,	'$'
+     39	001E			     data ends
+     40				     end start
+Turbo Assembler	 Version 3.1	    04/16/20 23:06:07	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name		Type   Value			   Cref	(defined at #)
+
+??DATE			Text   "04/16/20"
+??FILENAME		Text   "lab7	"
+??TIME			Text   "23:06:07"
+??VERSION		Number 030A
+@CPU			Text   0101H
+@CURSEG			Text   DATA			   #1  #32
+@FILENAME		Text   LAB7
+@LAST			Near   CODE:001B		   #19
+@WORDSIZE		Text   2			   #1  #32
+ENT			Byte   DATA:001B		   25  #38
+FIRSTSTRYES		Byte   DATA:0000		   #33
+NEXTSTR			Near   CODE:0021		   #24
+START			Near   CODE:0000		   #4  40
+
+Groups & Segments	Bit Size Align	Combine	Class	   Cref	(defined at #)
+
+CODE			16  0029 Para	none		   #1  2
+DATA			16  001E Para	none		   2  6	 #32
+Turbo Assembler	 Version 3.1	    04/16/20 23:06:07	    Page 3
+Error Summary
+
+
+
+*Warning* lab7.asm(11) Argument	needs type override
+
