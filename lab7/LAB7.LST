@@ -1,4 +1,4 @@
-Turbo Assembler	 Version 3.1	    04/16/20 23:06:07	    Page 1
+Turbo Assembler	 Version 3.1	    04/17/20 14:33:33	    Page 1
 lab7.asm
 
 
@@ -11,40 +11,272 @@ lab7.asm
       6	0000  B8 0000s		     mov ax, data
       7	0003  8E D8		     mov ds, ax
       8
-      9	0005  33 DB		     xor   bx, bx
-     10	0007  26: 8A 1E	0080	     mov   bl, es:[80h]
-     11	000C  C7 87 0082 0024	     mov   byte	[bx + 81h], '$'
-*Warning* lab7.asm(11) Argument	needs type override
-     12
-     13				     ; print the string
-     14	0012  B4 09		     mov   ah, 9
-     15	0014  26: 8B 16	0081	     mov   dx, es:[81h]
-     16	0019  CD 21		     int   21h
-     17
-     18
-     19	001B			     @last:
-     20	001B  B0 00		     mov al, 0
-     21	001D  B4 4C		     mov ah, 4CH
-     22	001F  CD 21		     int 21H
-     23
-     24	0021			     proc NextStr
-     25	0021  BA 001Br			 lea dx, ent
-     26	0024  B4 09			 mov ah, 9
-     27	0026  CD 21			 int 21h
-     28	0028  C3			 ret
-     29	0029			     endp NextStr
-     30
-     31	0029			     code ends
-     32	0000			     data segment
-     33	0000  46 69 72 73 74 20	70+	 firstStrYes db	'First param is	coorrect = $'
-     34	      61 72 61 6D 20 69	73+
-     35	      20 63 6F 6F 72 72	65+
-     36	      63 74 20 3D 20 24
-     37
-     38	001B  0A 0D 24			 ent db	10, 13,	'$'
-     39	001E			     data ends
-     40				     end start
-Turbo Assembler	 Version 3.1	    04/16/20 23:06:07	    Page 2
+      9	0005			     @mainLoop:
+     10
+     11	0005  B4 09			 mov ah, 09h
+     12	0007  BA 0013r			 mov dx, offset	[firstMsg]
+     13	000A  CD 21			 int 21h
+     14
+     15	000C  B9 0004			 mov cx, 4
+     16	000F				 @loop1:
+     17	000F  E8 0148			     call CorrInput
+     18	0012  50			     push ax
+     19	0013  E2 FA			     loop @loop1
+     20
+     21	0015  B4 09			 mov ah, 09h
+     22	0017  BA 0022r			 mov dx, offset	[[equalSing]]
+     23	001A  CD 21			 int 21h
+     24
+     25	001C  BA 0000			 mov dx, 0
+     26
+     27				     ;Block
+     28
+     29	001F  58			 pop ax
+     30	0020  3C 3D			 cmp al, 3Dh
+     31	0022  77 0A			 ja @letter1
+     32	0024  B4 00			 mov ah, 0
+     33	0026  05 FFD0			 add ax, -30h
+     34	0029  03 D0			 add dx, ax
+     35	002B  EB 08 90			 jmp @next1
+     36	002E				 @letter1:
+     37	002E  B4 00			 mov ah, 0
+     38	0030  05 FFC9			 add ax, -37h
+     39	0033  03 D0			 add dx, ax
+     40	0035				 @next1:
+     41
+     42	0035  58			 pop ax
+     43	0036  B4 00			 mov ah, 0
+     44	0038  3C 3D			 cmp al, 3Dh
+     45	003A  77 0F			 ja @letter2
+     46	003C  05 FFD0			 add ax, -30h
+     47	003F  BB 0010			 mov bx, 16
+     48	0042  52			 push dx
+     49	0043  F7 E3			 mul bx
+     50	0045  5A			 pop dx
+     51	0046  03 D0			 add dx, ax
+     52	0048  EB 0F 90			 jmp @next2
+     53	004B				 @letter2:
+     54	004B  B4 00			 mov ah, 0
+     55	004D  05 FFC9			 add ax, -37h
+     56	0050  BB 0010			 mov bx, 16
+     57	0053  52			 push dx
+Turbo Assembler	 Version 3.1	    04/17/20 14:33:33	    Page 2
+lab7.asm
+
+
+
+     58	0054  F7 E3			 mul bx
+     59	0056  5A			 pop dx
+     60	0057  03 D0			 add dx, ax
+     61	0059				 @next2:
+     62
+     63	0059  58			 pop ax
+     64	005A  B4 00			 mov ah, 0
+     65	005C  3C 3D			 cmp al, 3Dh
+     66	005E  77 0F			 ja @letter3
+     67	0060  05 FFD0			 add ax, -30h
+     68	0063  BB 0100			 mov bx, 100h
+     69	0066  52			 push dx
+     70	0067  F7 E3			 mul bx
+     71	0069  5A			 pop dx
+     72	006A  03 D0			 add dx, ax
+     73	006C  EB 0F 90			 jmp @next3
+     74	006F				 @letter3:
+     75	006F  B4 00			 mov ah, 0
+     76	0071  05 FFC9			 add ax, -37h
+     77	0074  BB 0100			 mov bx, 100h
+     78	0077  52			 push dx
+     79	0078  F7 E3			 mul bx
+     80	007A  5A			 pop dx
+     81	007B  03 D0			 add dx, ax
+     82	007D				 @next3:
+     83
+     84	007D  58			 pop ax
+     85	007E  B4 00			 mov ah, 0
+     86	0080  3C 3D			 cmp al, 3Dh
+     87	0082  77 0F			 ja @letter4
+     88	0084  05 FFD0			 add ax, -30h
+     89	0087  BB 1000			 mov bx, 1000h
+     90	008A  52			 push dx
+     91	008B  F7 E3			 mul bx
+     92	008D  5A			 pop dx
+     93	008E  03 D0			 add dx, ax
+     94	0090  EB 0F 90			 jmp @next4
+     95	0093				 @letter4:
+     96	0093  B4 00			 mov ah, 0
+     97	0095  05 FFC9			 add ax, -37h
+     98	0098  BB 1000			 mov bx, 1000h
+     99	009B  52			 push dx
+    100	009C  F7 E3			 mul bx
+    101	009E  5A			 pop dx
+    102	009F  03 D0			 add dx, ax
+    103	00A1				 @next4:
+    104
+    105				     ;Block
+    106
+    107	00A1  8B C2			 mov ax, dx
+    108	00A3  BB 0026r			 mov bx, offset	[hexTabl]
+    109
+    110	00A6  50			 push ax
+    111	00A7  D1 E8 D1 E8 D1 E8	D1+	 shr ax, 12
+    112	      E8 D1 E8 D1 E8 D1	E8+
+    113	      D1 E8 D1 E8 D1 E8	D1+
+    114	      E8 D1 E8
+Turbo Assembler	 Version 3.1	    04/17/20 14:33:33	    Page 3
+lab7.asm
+
+
+
+    115	00BF  D7			 xlat
+    116	00C0  CD 29			 int 29h
+    117	00C2  58			 pop ax
+    118	00C3  50			 push ax
+    119	00C4  80 E4 0F			 and ah, 0Fh
+    120	00C7  D1 E8 D1 E8 D1 E8	D1+	 shr ax, 8
+    121	      E8 D1 E8 D1 E8 D1	E8+
+    122	      D1 E8
+    123	00D7  D7			 xlat
+    124	00D8  CD 29			 int 29h
+    125
+    126	00DA  58			 pop ax
+    127	00DB  50			 push ax
+    128	00DC  D0 E8 D0 E8 D0 E8	D0+	 shr al, 4
+    129	      E8
+    130	00E4  D7			 xlat
+    131	00E5  CD 29			 int 29h
+    132	00E7  58			 pop ax
+    133	00E8  50			 push ax
+    134	00E9  24 0F			 and al, 0Fh
+    135	00EB  D7			 xlat
+    136	00EC  CD 29			 int 29h
+    137
+    138	00EE  B0 68			 mov al, 'h'
+    139	00F0  CD 29			 int 29h
+    140	00F2  52			 push dx
+    141	00F3  E8 005C			 call NextStr
+    142	00F6  5A			 pop dx
+    143
+    144	00F7  B4 09			 mov ah, 09h
+    145	00F9  52			 push dx
+    146	00FA  BA 0036r			 mov dx, offset	[decFormat]
+    147	00FD  CD 21			 int 21h
+    148	00FF  5A			 pop dx
+    149
+    150	0100  8B C2			 mov ax, dx
+    151	0102  BA 0000			 mov dx, 0
+    152	0105  BB 2710			 mov bx, 10000
+    153	0108  F7 F3			 div bx
+    154	010A  04 30			 add al, 30h
+    155	010C  CD 29			 int 29h
+    156
+    157	010E  8B C2			 mov ax, dx
+    158	0110  BA 0000			 mov dx, 0
+    159	0113  BB 03E8			 mov bx, 1000
+    160	0116  F7 F3			 div bx
+    161	0118  04 30			 add al, 30h
+    162	011A  CD 29			 int 29h
+    163
+    164	011C  8B C2			 mov ax, dx
+    165	011E  BA 0000			 mov dx, 0
+    166	0121  BB 0064			 mov bx, 100
+    167	0124  F7 F3			 div bx
+    168	0126  04 30			 add al, 30h
+    169	0128  CD 29			 int 29h
+    170
+    171	012A  8B C2			 mov ax, dx
+Turbo Assembler	 Version 3.1	    04/17/20 14:33:33	    Page 4
+lab7.asm
+
+
+
+    172	012C  BA 0000			 mov dx, 0
+    173	012F  BB 000A			 mov bx, 10
+    174	0132  F7 F3			 div bx
+    175	0134  04 30			 add al, 30h
+    176	0136  CD 29			 int 29h
+    177
+    178	0138  8B C2			 mov ax, dx
+    179	013A  BA 0000			 mov dx, 0
+    180	013D  BB 0001			 mov bx, 1
+    181	0140  F7 F3			 div bx
+    182	0142  04 30			 add al, 30h
+    183	0144  CD 29			 int 29h
+    184
+    185	0146  E8 0009			 call NextStr
+    186
+    187	0149  E9 FEB9			 jmp @mainLoop
+    188
+    189	014C  B0 00		     mov al, 0
+    190	014E  B4 4C		     mov ah, 4CH
+    191	0150  CD 21		     int 21H
+    192
+    193	0152			     proc NextStr
+    194	0152  BA 0000r			 lea dx, ent
+    195	0155  B4 09			 mov ah, 9
+    196	0157  CD 21			 int 21h
+    197	0159  C3			 ret
+    198	015A			     endp NextStr
+    199
+    200	015A			     proc CorrInput
+    201	015A			     @@Loop2:
+    202	015A  B4 01			 mov ah, 01h
+    203	015C  CD 21			 int 21h
+    204
+    205	015E  3C 3D			 cmp al, 3Dh
+    206	0160  77 0B			 ja @@letter
+    207
+    208	0162  3C 30			 cmp al, 30h
+    209	0164  72 12			 jb @@Error
+    210	0166  3C 39			 cmp al, 39h
+    211	0168  77 0E			 ja @@Error
+    212	016A  EB 20 90			 jmp @@Break2
+    213
+    214	016D				 @@letter:
+    215	016D  3C 41			 cmp al, 41h
+    216	016F  72 07			 jb @@Error
+    217	0171  3C 46			 cmp al, 46h
+    218	0173  77 03			 ja @@Error
+    219	0175  EB 15 90			 jmp @@Break2
+    220
+    221	0178				 @@Error:
+    222	0178  3C 2A			 cmp al, '*'
+    223	017A  74 07			 je @@stop
+    224	017C  B4 09			 mov ah, 09h
+    225	017E  BA 0003r			 mov dx, offset	[errorMsg]
+    226	0181  CD 21			 int 21h
+    227	0183				 @@stop:
+    228	0183  E8 FFCC			 call NextStr
+Turbo Assembler	 Version 3.1	    04/17/20 14:33:33	    Page 5
+lab7.asm
+
+
+
+    229	0186  B0 00			 mov al, 0
+    230	0188  B4 4C			 mov ah, 4CH
+    231	018A  CD 21			 int 21H
+    232
+    233	018C			     @@Break2:
+    234	018C  C3			 ret
+    235	018D			     endp CorrInput
+    236
+    237	018D			     code ends
+    238	0000			     data segment
+    239	0000  0A 0D 24			 ent db	10, 13,	'$'
+    240	0003  49 6E 76 61 6C 69	64+	 errorMsg db 'Invalid number!$'
+    241	      20 6E 75 6D 62 65	72+
+    242	      21 24
+    243	0013  45 6E 74 65 72 20	6E+	 firstMsg db 'Enter number: $'
+    244	      75 6D 62 65 72 3A	20+
+    245	      24
+    246	0022  20 3D 20 24		 equalSing db '	= $'
+    247	0026  30 31 32 33 34 35	36+	 hexTabl db '0123456789ABCDEF'
+    248	      37 38 39 41 42 43	44+
+    249	      45 46
+    250	0036  44 65 63 20 66 6F	72+	 decFormat db 'Dec form: $'
+    251	      6D 3A 20 24
+    252	0041			     data ends
+    253				     end start
+Turbo Assembler	 Version 3.1	    04/17/20 14:33:33	    Page 6
 Symbol Table
 
 
@@ -52,28 +284,41 @@ Symbol Table
 
 Symbol Name		Type   Value			   Cref	(defined at #)
 
-??DATE			Text   "04/16/20"
+??DATE			Text   "04/17/20"
 ??FILENAME		Text   "lab7	"
-??TIME			Text   "23:06:07"
+??TIME			Text   "14:33:33"
 ??VERSION		Number 030A
+@@BREAK2		Near   CODE:018C		   212	219  #233
+@@ERROR			Near   CODE:0178		   209	211  216  218  #221
+@@LETTER		Near   CODE:016D		   206	#214
+@@LOOP2			Near   CODE:015A		   #201
+@@STOP			Near   CODE:0183		   223	#227
 @CPU			Text   0101H
-@CURSEG			Text   DATA			   #1  #32
+@CURSEG			Text   DATA			   #1  #238
 @FILENAME		Text   LAB7
-@LAST			Near   CODE:001B		   #19
-@WORDSIZE		Text   2			   #1  #32
-ENT			Byte   DATA:001B		   25  #38
-FIRSTSTRYES		Byte   DATA:0000		   #33
-NEXTSTR			Near   CODE:0021		   #24
-START			Near   CODE:0000		   #4  40
+@LETTER1		Near   CODE:002E		   31  #36
+@LETTER2		Near   CODE:004B		   45  #53
+@LETTER3		Near   CODE:006F		   66  #74
+@LETTER4		Near   CODE:0093		   87  #95
+@LOOP1			Near   CODE:000F		   #16	19
+@MAINLOOP		Near   CODE:0005		   #9  187
+@NEXT1			Near   CODE:0035		   35  #40
+@NEXT2			Near   CODE:0059		   52  #61
+@NEXT3			Near   CODE:007D		   73  #82
+@NEXT4			Near   CODE:00A1		   94  #103
+@WORDSIZE		Text   2			   #1  #238
+CORRINPUT		Near   CODE:015A		   17  #200
+DECFORMAT		Byte   DATA:0036		   146	#250
+ENT			Byte   DATA:0000		   194	#239
+EQUALSING		Byte   DATA:0022		   22  #246
+ERRORMSG		Byte   DATA:0003		   225	#240
+FIRSTMSG		Byte   DATA:0013		   12  #243
+HEXTABL			Byte   DATA:0026		   108	#247
+NEXTSTR			Near   CODE:0152		   141	185  #193  228
+START			Near   CODE:0000		   #4  253
 
 Groups & Segments	Bit Size Align	Combine	Class	   Cref	(defined at #)
 
-CODE			16  0029 Para	none		   #1  2
-DATA			16  001E Para	none		   2  6	 #32
-Turbo Assembler	 Version 3.1	    04/16/20 23:06:07	    Page 3
-Error Summary
-
-
-
-*Warning* lab7.asm(11) Argument	needs type override
+CODE			16  018D Para	none		   #1  2
+DATA			16  0041 Para	none		   2  6	 #238
 
